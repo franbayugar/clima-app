@@ -23,23 +23,34 @@ const main = async () =>{
                 break;
             }
             const id = await listarLugares(ciudades);
+            if(id === '0') continue;
+
             const lugarSel = ciudades.find(l=> l.id === id);
-            
+
+            busquedas.agregarHistorial(lugarSel.nombre);
+     
+            console.log('Cargando...');
             const {desc, min, max, temp} = await busquedas.climaCiudad(lugarSel.lat, lugarSel.lng);
             
+            console.clear();
 
             console.log('\nInformación de la ciudad\n'.green)
-            console.log('Ciudad: ', lugarSel.nombre.red);
+            console.log('Ciudad: ', lugarSel.nombre.cyan);
             console.log('Latitud: ', lugarSel.lat);
             console.log('Longitud: ', lugarSel.lng);
 
             console.log('Temperatura actual: ', temp);
             console.log('Temperatura mínima: ', min);
             console.log('Temperatura máxima: ', max);
-            console.log('Descripción: ', desc.red);
+            console.log('Descripción: ', desc.cyan);
 
+     
                 break;
             case 2:
+                busquedas.historialCapitalizado.forEach((lugar,i) =>{
+                    const idx = `${i+1}.`.green;
+                    console.log(`${idx} ${lugar}`);
+                })
                 break;
         }
         
@@ -48,7 +59,7 @@ const main = async () =>{
         
     }while(opt !== 0)
 
-    console.log({opt});
+
 
 
 }
